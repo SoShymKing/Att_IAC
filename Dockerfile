@@ -17,6 +17,6 @@ RUN python -m pip install --user -r requirements.txt
 
 COPY --chown=user:user process.py /opt/app/
 
-COPY --chown=user:user model/ /opt/app/model/
+COPY --chown=user:user model/ /opt/ml/model/
 
 ENTRYPOINT [ "python", "-m", "process" ]

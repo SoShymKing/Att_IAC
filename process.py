@@ -32,7 +32,9 @@ def your_oral_pharyngeal_segmentation_algorithm(input_tensor: torch.Tensor, clic
     # volume = input_tensor.squeeze(0)  # Remove batch dimension: [H, W, D]
     # print(f"Received {int(len(clicks_data.get('points', [])) / 2)} clicks for each IAC.")
     # device = "gpu" if torch.cuda.is_available() else "cpu"
-    from model.seg_evalutils import IAC_SegmentationAlgorithm
+    import sys
+    sys.path.append("/opt/ml/model")
+    from seg_evalutils import IAC_SegmentationAlgorithm
     device = get_default_device()
     # print(clicks_data)
     # print(input_tensor.shape)
@@ -42,7 +44,7 @@ def your_oral_pharyngeal_segmentation_algorithm(input_tensor: torch.Tensor, clic
     # print(f"Received {int(len(clicks_data.get('points', [])) / 2)} clicks for each IAC.")
     # print(np.zeros_like(vol.cpu().numpy(), dtype=np.uint8).shape)
     # Return zeros with same shape as original volume (without batch dimension)
-    print(f"Non zero: {np.count_nonzero(volume)}")
+    # print(f"Non zero: {np.count_nonzero(volume)}")
 
     return volume
 

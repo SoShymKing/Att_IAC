@@ -1,4 +1,4 @@
-from model.inf_func import inference_iac
+from inf_func import inference_iac
 import numpy as np
 import torch
 from typing import Dict, Tuple, List
@@ -63,8 +63,8 @@ def left_right_split_tensor(input_tensor: torch.Tensor, clicks_data: Dict) -> Li
 LABELS = {
     # "Left Inferior Alveolar Canal": 1,
     # "Right Inferior Alveolar Canal": 2,
-    "Left Inferior Alveolar Canal": 3,
-    "Right Inferior Alveolar Canal": 4,
+    "Left Inferior Alveolar Canal": 1,
+    "Right Inferior Alveolar Canal": 2,
     # "Right Inferior Alveolar Canal": 4,
 }
 
@@ -90,13 +90,13 @@ def get_bounding_boxes(mask: torch.Tensor, values=(3, 4)):
 def IAC_SegmentationAlgorithm(input_tensor: torch.Tensor, clicks_data: Dict, device: torch.device) -> np.ndarray:
     # mask = inference_iac(input_tensor*2100, clicks_data, ckpt = "/opt/app/model/ev_checkpoint_val_loss=0.10.ckpt", device=device)
     # mask = inference_iac(input_tensor.permute(0, 3, 2, 1), clicks_data, ckpt = "/opt/app/model/ev_checkpoint_val_loss=0.10.ckpt", device=device)
-    mask = inference_iac(input_tensor.permute(0, 3, 2, 1)*2100, clicks_data, ckpt = "/opt/app/model/ev_checkpoint_val_loss=0.10.ckpt", device=device)
+    mask = inference_iac(input_tensor.permute(0, 3, 2, 1)*2100, clicks_data, ckpt = "/opt/ml/model/ev_checkpoint_val_loss=0.10.ckpt", device=device)
     # mask = inference_iac(input_tensor, clicks_data, ckpt = "/opt/app/model/ev_checkpoint_val_loss=0.10.ckpt", device=device)
     l, r = left_right_split_tensor(mask, clicks_data)
     combined_mask = combine_left_right_tensors(l, r).permute(2, 1, 0)
     # combined_mask = combine_left_right_tensors(l, r)
     print(f"combined_mask shape: {combined_mask.shape}")
-    print(f"combined_mask ones: {torch.sum(combined_mask == 3).item()}")
-    print(f"combined_mask twos: {torch.sum(combined_mask == 4).item()}")
-    print("Bounding boxes:", get_bounding_boxes(combined_mask, values=(3, 4)))
+    print(f"combined_mask ones: {torch.sum(combined_mask == 1).item()}")
+    print(f"combined_mask twos: {torch.sum(combined_mask == 2).item()}")
+    print("Bounding boxes:", get_bounding_boxes(combined_mask, values=(1, 2)))
     return combined_mask.cpu().numpy().astype(np.uint8)

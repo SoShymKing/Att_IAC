@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 from monai.inferers import sliding_window_inference
 
-from model.model import CombinedModel
+from model import CombinedModel
 from typing import Dict
 
 def create_guide_mask(shape, points, std=1.0):
