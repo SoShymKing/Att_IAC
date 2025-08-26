@@ -1,0 +1,12 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+evalutils==0.4.2
+SimpleITK==2.3.1
+numpy>=1.21.0
+nibabel>=5.3.2
+einops>=0.8.1
+monai-weekly[all]>=1.6.dev2533
+lightning>=2.5.3
+pytorch-lightning>=2.5.3
+torch==2.7.0
+torchvision==0.22.0
+torchaudio==2.7.0
